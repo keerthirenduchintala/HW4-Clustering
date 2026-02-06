@@ -21,7 +21,7 @@ def test_get_centroids_shape(self):
     centroids = km.get_centroids()
     assert centroids.shape == (2, 2)
     
-    def test_get_error_is_number(self):
+def test_get_error_is_number(self):
     X = np.array([[1, 2], [1, 3], [5, 6], [5, 7]])
     km = KMeans(k=2)
     km.fit(X)
