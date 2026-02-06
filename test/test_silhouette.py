@@ -7,28 +7,28 @@ from cluster.utils import make_clusters
 
 
 # Basic Tests
-def test_X_not_numpy_array(self):
+def test_X_not_numpy_array():
     sil = Silhouette()
     X = [[1, 2], [3, 4]]
     y = np.array([0, 1])
     with pytest.raises(TypeError):
         sil.score(X, y)
     
-def test_X_not_2D(self):
+def test_X_not_2D():
     sil = Silhouette()
     X = np.array([1, 2, 3, 4])
     y = np.array([0, 1, 0, 1])
     with pytest.raises(ValueError):
         sil.score(X, y)
 
-def test_y_not_numpy_array(self):
+def test_y_not_numpy_array():
     sil = Silhouette()
     X = np.array([[1, 2], [3, 4]])
     y = [0, 1]
     with pytest.raises(TypeError):
         sil.score(X, y)
     
-def test_y_not_1D(self):
+def test_y_not_1D():
     sil = Silhouette()
     X = np.array([[1, 2], [3, 4]])
     y = np.array([[0, 1], [1, 0]])
@@ -43,7 +43,7 @@ def test_mismatched_lengths(self):
         sil.score(X, y)
 
 # Tests for comparing to sklearn
-def test_with_make_clusters(self):
+def test_with_make_clusters():
     
     X, y = make_clusters(n=100, k=3, scale=0.5)
     
