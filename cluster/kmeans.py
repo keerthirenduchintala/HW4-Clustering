@@ -55,6 +55,7 @@ class KMeans:
             mat: np.ndarray
                 A 2D matrix where the rows are observations and columns are features
         """
+        # built from information on kmeans clustering from this website: https://towardsdatascience.com/the-math-and-code-behind-k-means-clustering-795582423666/
         # checks
         # check to see that mat is a an array
         if not isinstance(mat, np.ndarray):
