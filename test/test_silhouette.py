@@ -35,7 +35,7 @@ def test_y_not_1D():
     with pytest.raises(ValueError):
         sil.score(X, y)
     
-def test_mismatched_lengths(self):
+def test_mismatched_lengths():
     sil = Silhouette()
     X = np.array([[1, 2], [3, 4], [5, 6]])
     y = np.array([0, 1])
