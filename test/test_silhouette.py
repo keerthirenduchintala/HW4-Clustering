@@ -3,6 +3,7 @@ from cluster import Silhouette
 import pytest
 import numpy as np
 from sklearn.metrics import silhouette_score
+from cluster.utils import make_clusters
 
 
 # Basic Tests
@@ -42,12 +43,14 @@ def test_mismatched_lengths(self):
         sil.score(X, y)
 
 # Tests for comparing to sklearn
-my_scores = Silhouette().score(X, labels)
-my_mean = np.mean(my_scores)
-
-# sklearn's implementation
-sklearn_mean = silhouette_score(X, labels)
-
-# Compare - they should be very close
-assert np.isclose(my_mean, sklearn_mean)
+def test_with_make_clusters(self):
+    
+    X, y = make_clusters(n=100, k=3, scale=0.5)
+    
+    my_scores = Silhouette().score(X, y)
+    my_mean = np.mean(my_scores)
+    
+    sklearn_mean = silhouette_score(X, y)
+    
+    assert np.isclose(my_mean, sklearn_mean)
 
