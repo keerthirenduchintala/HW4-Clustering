@@ -8,7 +8,7 @@ class Silhouette:
         inputs:
             none
         """
-    pass
+        pass
 
     def score(self, X: np.ndarray, y: np.ndarray) -> np.ndarray:
         """
@@ -47,6 +47,49 @@ class Silhouette:
 
         # Silhouette calculation 
         ## s(i) = (bi-ai)/(max(bi,ai))
-        ### b(i) = mean distance from point i to points in cluster
-        ### a(i) = mean distance from point i to points in nearest cluster that is not the assigned cluster
-        
+        ### a(i) = mean distance from point i to all points in cluster
+        ### b(i) = mean distance from point i to all points in nearest cluster that is not the assigned cluster
+        # All pairwise distances
+        distances = cdist(X, X)
+
+        silhouette_scores = []
+
+        for i in range(X.shape[0]):
+            # What cluster does point i belong to?
+            cluster_i = y[i]
+    
+            # Calculate a(i): mean distance to other points in same cluster
+            distances_to_same_cluster = []
+            for j in range(X.shape[0]):
+                # Skip if j is the same point as i
+                if j == i:
+                    continue
+                # Only include if j is in the same cluster as i
+                if y[j] == cluster_i:
+                    distances_to_same_cluster.append(distances[i, j])
+            a_i = np.mean(distances_to_same_cluster)
+
+            # Calculate b(i): mean distance to points in NEAREST OTHER cluster
+            mean_distances_to_other_clusters = []
+
+            for cluster in np.unique(y):
+            # Skip if it's the same cluster as point i
+                if cluster == cluster_i:
+                    continue
+                
+                distances_to_this_cluster = []
+                for j in range(X.shape[0]):
+                    if y[j] == cluster:
+                        distances_to_this_cluster.append(distances[i, j])   
+            # Compute mean distance 
+                mean_dist = np.mean(distances_to_this_cluster)
+                mean_distances_to_other_clusters.append(mean_dist)
+            b_i = np.min(mean_distances_to_other_clusters)
+            # Calculate s(i) = (bi-ai)/(max(bi,ai))
+            s_i = (b_i-a_i)/(max(b_i, a_i))
+            silhouette_scores.append(s_i)
+        score = np.array(silhouette_scores)
+        return score
+
+
+                
